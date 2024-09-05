@@ -8,20 +8,24 @@ module.exports = async (req, res) => {
   if (code) {
     try {
       // Troca o código de autorização por um token de acesso
-      const response = await axios.post('https://www.bling.com.br/Api/v3/oauth/token', {
-        client_id: process.env.CLIENT_ID,
-        client_secret: process.env.CLIENT_SECRET,
-        grant_type: 'authorization_code',
-        code: code,
-        redirect_uri: 'https://oauth-callback-luft.vercel.app/'
+      const response = await axios.post('https://www.bling.com.br/Api/v3/oauth/token', null, {
+        params: {
+          client_id: process.env.CLIENT_ID,
+          client_secret: process.env.CLIENT_SECRET,
+          grant_type: 'authorization_code',
+          code: code,
+          redirect_uri: 'https://oauth-callback-luft.vercel.app/'
+        },
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
       });
 
       const accessToken = response.data.access_token;
 
       // Verifique se o token de acesso foi recebido
       if (accessToken) {
-        // Armazena o token para uso futuro
-        // Exiba o token ou salve-o para uso posterior
+        // Exibe o token de acesso para o usuário
         res.send(`Token de acesso recebido: ${accessToken}`);
       } else {
         res.send("Erro: Token de acesso não recebido.");
