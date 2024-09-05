@@ -4,6 +4,7 @@ module.exports = async (req, res) => {
   const code = req.query.code;
   const state = req.query.state;
 
+  // Verifique se o código de autorização foi recebido
   if (code) {
     try {
       // Troca o código de autorização por um token de acesso
@@ -17,12 +18,18 @@ module.exports = async (req, res) => {
 
       const accessToken = response.data.access_token;
 
-      // Exibe o token de acesso no navegador ou registra-o de alguma forma
-      res.send(`Token de acesso recebido: ${accessToken}`);
+      // Verifique se o token de acesso foi recebido
+      if (accessToken) {
+        // Armazena o token para uso futuro
+        // Exiba o token ou salve-o para uso posterior
+        res.send(`Token de acesso recebido: ${accessToken}`);
+      } else {
+        res.send("Erro: Token de acesso não recebido.");
+      }
     } catch (error) {
       res.send(`Erro ao trocar o código de autorização por token: ${error.message}`);
     }
   } else {
-    res.send("Erro: nenhum código de autorização recebido.");
+    res.send("Erro: Nenhum código de autorização recebido.");
   }
 };
