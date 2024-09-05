@@ -4,7 +4,6 @@ module.exports = async (req, res) => {
   const code = req.query.code;
   const state = req.query.state;
 
-  // Verifique se o código de autorização foi recebido
   if (code) {
     try {
       // Troca o código de autorização por um token de acesso
@@ -23,9 +22,9 @@ module.exports = async (req, res) => {
 
       const accessToken = response.data.access_token;
 
-      // Verifique se o token de acesso foi recebido
       if (accessToken) {
-        // Exibe o token de acesso para o usuário
+        // Exiba o token de acesso e armazene-o
+        console.log('Token de acesso recebido: ', accessToken);
         res.send(`Token de acesso recebido: ${accessToken}`);
       } else {
         res.send("Erro: Token de acesso não recebido.");
